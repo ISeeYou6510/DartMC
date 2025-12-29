@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Administracyjny</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            background: radial-gradient(circle at top left, #3b82f6, #0f172a 45%, #020617);
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .panel {
+            background: rgba(15, 23, 42, 0.85);
+            padding: 40px 60px;
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            backdrop-filter: blur(8px);
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            margin-top: 10px;
+            font-size: 20px;
+            color: #e2e8f0;
+            text-decoration: none;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            transition: 0.25s;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="panel">
+        <h1>Panel Administracyjny</h1>
+
+        <a href="ranks.html" class="btn">Rangi</a>
+    </div>
+
+</body>
+</html>
