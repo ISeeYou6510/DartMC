@@ -20,7 +20,6 @@
             overflow: hidden;
         }
 
-        /* Pasek u góry */
         .top-bar {
             position: fixed;
             top: 0;
@@ -37,7 +36,6 @@
             z-index: 20;
         }
 
-        /* Hamburger */
         .hamburger {
             width: 40px;
             height: 32px;
@@ -56,7 +54,6 @@
             transition: 0.3s;
         }
 
-        /* Menu boczne */
         .side-menu {
             position: fixed;
             top: 0;
@@ -92,7 +89,6 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
-        /* Strzałka zamykania */
         .close-arrow {
             font-size: 32px;
             padding: 10px 24px;
@@ -105,7 +101,6 @@
             color: #93c5fd;
         }
 
-        /* Przycisk admina */
         .admin-btn {
             padding: 18px;
             text-align: center;
@@ -120,7 +115,6 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Ikona na środku */
         .center-icon {
             position: absolute;
             top: 50%;
@@ -132,7 +126,6 @@
             filter: drop-shadow(0 0 20px rgba(0,0,0,0.6));
         }
 
-        /* Okno brak dostępu */
         .popup {
             position: fixed;
             top: 50%;
@@ -147,7 +140,6 @@
             opacity: 0;
             pointer-events: none;
             transition: 0.25s ease;
-            animation: none;
             z-index: 999;
         }
 
@@ -175,7 +167,6 @@
 
 <body>
 
-    <!-- Pasek u góry -->
     <div class="top-bar">
         <div class="hamburger" id="hamburger">
             <div></div>
@@ -184,7 +175,6 @@
         </div>
     </div>
 
-    <!-- Menu boczne -->
     <div class="side-menu" id="sideMenu">
         <div>
             <div class="close-arrow" id="closeMenu">←</div>
@@ -195,16 +185,25 @@
         <div class="admin-btn" id="adminBtn">Dostęp administracyjny</div>
     </div>
 
-    <!-- Ikona na środku -->
     <img src="ikona.png" alt="Ikona" class="center-icon">
 
-    <!-- Popup brak dostępu -->
     <div class="popup" id="popup">
         <img src="icon1.png" alt="Brak dostępu">
         <div style="font-size: 20px; margin-top: 5px;">Brak dostępu</div>
     </div>
 
     <script>
+        const ADMIN_IPS = [
+            "127.0.0.1",
+            "83.12.45.67"
+        ];
+
+        async function getMyIP() {
+            const res = await fetch("https://api.ipify.org?format=json");
+            const data = await res.json();
+            return data.ip;
+        }
+
         const hamburger = document.getElementById("hamburger");
         const sideMenu = document.getElementById("sideMenu");
         const closeMenu = document.getElementById("closeMenu");
@@ -219,12 +218,15 @@
             sideMenu.classList.remove("open");
         });
 
-        adminBtn.addEventListener("click", () => {
-            popup.classList.add("show");
+        adminBtn.addEventListener("click", async () => {
+            const myIP = await getMyIP();
 
-            setTimeout(() => {
-                popup.classList.remove("show");
-            }, 1500);
+            if (ADMIN_IPS.includes(myIP)) {
+                window.location.href = "admin.html";
+            } else {
+                popup.classList.add("show");
+                setTimeout(() => popup.classList.remove("show"), 1500);
+            }
         });
     </script>
 
