@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Nowoczesny szablon strony</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, sans-serif;
+            background: radial-gradient(circle at top left, #3b82f6, #0f172a 45%, #020617);
+            color: #e5e7eb;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Pasek u góry */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 24px;
+            z-index: 20;
+        }
+
+        /* Przycisk hamburger */
+        .hamburger {
+            width: 38px;
+            height: 32px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            background: radial-gradient(circle at top, rgba(248, 250, 252, 0.12), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.8), 0 12px 25px rgba(15, 23, 42, 0.9);
+        }
+
+        .hamburger:hover {
+            background: radial-gradient(circle at top, rgba(248, 250, 252, 0.2), rgba(15, 23, 42, 0.7));
+            transform: translateY(-1px);
+            box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.7), 0 18px 40px rgba(15, 23, 42, 0.95);
+        }
+
+        .hamburger-line {
+            width: 18px;
+            height: 2px;
+            border-radius: 999px;
+            background: #e5e7eb;
+            box-shadow: 0 0 3px rgba(248, 250, 252, 0.7);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .hamburger-line + .hamburger-line {
+            margin-top: 3px;
+        }
+
+        /* Główna zawartość */
+        .page {
+            position: relative;
+            min-height: 100vh;
+            padding: 80px 24px 40px; /* padding-top > height paska */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-wrapper {
+            position: relative;
+            max-width: 960px;
+            width: 100%;
+            padding: 40px 32px;
+            border-radius: 24px;
+            background: radial-gradient(circle at top left,
+                        rgba(15, 23, 42, 0.92),
+                        rgba(15, 23, 42, 0.8),
+                        rgba(15, 23, 42, 0.65));
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            box-shadow:
+                0 25px 60px rgba(15, 23, 42, 0.9),
+                0 0 0 1px rgba(15, 23, 42, 0.9);
+            overflow: hidden;
+        }
+
+        /* Ozdobne elementy */
+        .glow-circle {
+            position: absolute;
+            border-radius: 999px;
+            filter: blur(24px);
+            opacity: 0.55;
+            z-index: -1;
+        }
+
+        .glow-circle.blue {
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.8), transparent);
+            top: -80px;
+            right: -40px;
+        }
+
+        .glow-circle.purple {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.85), transparent);
+            bottom: -70px;
+            left: -20px;
+        }
+
+        .border-orbit {
+            position: absolute;
+            inset: 18px;
+            border-radius: 20px;
+            border: 1px dashed rgba(148, 163, 184, 0.35);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .corner-pill {
+            position: absolute;
+            width: 130px;
+            height: 26px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.45);
+            background: radial-gradient(circle at top, rgba(248, 250, 252, 0.1), rgba(15, 23, 42, 0.8));
+            top: 22px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(226, 232, 240, 0.9);
+        }
+
+        /* Tekst główny */
+        .eyebrow {
+            font-size: 12px;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: rgba(148, 163, 184, 0.9);
+            margin-bottom: 14px;
+        }
+
+        .title {
+            font-size: clamp(32px, 5vw, 46px);
+            line-height: 1.15;
+            font-weight: 650;
+            color: #f9fafb;
+            margin-bottom: 16px;
+        }
+
+        .title span.accent {
+            background: linear-gradient(135deg, #38bdf8, #a855f7, #f97316);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            max-width: 540px;
+            font-size: 15px;
+            color: #cbd5f5;
+            opacity: 0.92;
+            line-height: 1.6;
+            margin-bottom: 26px;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            color: rgba(226, 232, 240, 0.88);
+            background: radial-gradient(circle at top, rgba(248, 250, 252, 0.06), rgba(15, 23, 42, 0.85));
+        }
+
+        /* Przestrzeń na przyszły przycisk / CTA / cokolwiek */
+        .placeholder-row {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .placeholder-box {
+            height: 46px;
+            min-width: 160px;
+            border-radius: 999px;
+            border: 1px dashed rgba(148, 163, 184, 0.42);
+            background: rgba(15, 23, 42, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: rgba(209, 213, 219, 0.9);
+        }
+
+        @media (max-width: 640px) {
+            .content-wrapper {
+                padding: 28px 20px;
+                border-radius: 20px;
+            }
+
+            .border-orbit {
+                inset: 14px;
+                border-radius: 16px;
+            }
+
+            .corner-pill {
+                display: none;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pasek u góry z przyciskiem hamburger -->
+    <div class="top-bar">
+        <div class="hamburger" aria-label="Menu">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+        </div>
+    </div>
+
+    <!-- Główna sekcja strony -->
+    <main class="page">
+        <section class="content-wrapper">
+            <!-- Ozdoby -->
+            <div class="glow-circle blue"></div>
+            <div class="glow-circle purple"></div>
+            <div class="border-orbit"></div>
+            <div class="corner-pill">PREMIUM TEMPLATE</div>
+
+            <!-- Tekst główny -->
+            <div class="eyebrow">Nowoczesny szablon • gotowy do rozbudowy</div>
+
+            <h1 class="title">
+                Profesjonalnie wyglądająca strona,
+                <span class="accent">gotowa pod Twój projekt</span>.
+            </h1>
+
+            <p class="subtitle">
+                Tu możesz dodać opis serwera, projektu, marki lub czegokolwiek chcesz.
+                Struktura jest już ustawiona, wygląd nowoczesny, a Ty tylko podmieniasz tekst
+                i ewentualnie dodajesz swoje przyciski lub sekcje.
+            </p>
+
+            <div class="tag-row">
+                <span class="tag">Minimalistyczny układ</span>
+                <span class="tag">Tylko górny pasek i hamburger</span>
+                <span class="tag">Gotowe tło i ozdoby</span>
+            </div>
+
+            <div class="placeholder-row">
+                <div class="placeholder-box">
+                    Tu możesz dodać przycisk / link / CTA
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Tu możesz później dodać logikę do rozwijanego menu.
+        const hamburger = document.querySelector('.hamburger');
+        hamburger.addEventListener('click', () => {
+            // Na razie tylko małe kliknięcie w konsoli:
+            console.log('Kliknięto hamburgera – tu możesz otworzyć menu.');
+        });
+    </script>
+</body>
+</html>
